@@ -10,11 +10,10 @@ public class ShotShell : MonoBehaviour
 
     void Update()
     {
-        // もしもSpaceキーを押したならば（条件）
-        // 「Space」の部分を変更することで他のキーにすることができる（ポイント）
+        // Spaceキー
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            // 砲弾のプレハブを実体化（インスタンス化）する。
+            // 砲弾のプレハブをインスタンス化
             GameObject shell = Instantiate(shellPrefab, transform.position, Quaternion.identity);
 
             // 砲弾に付いているRigidbodyコンポーネントにアクセスする。

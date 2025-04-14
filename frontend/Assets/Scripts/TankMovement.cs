@@ -21,7 +21,6 @@ public class TankMovement : MonoBehaviour
         Turn();
     }
 
-    // 前進・後退のメソッド
     void Move()
     {
         movementInputValue = Input.GetAxis("Vertical");
@@ -29,7 +28,6 @@ public class TankMovement : MonoBehaviour
         rb.MovePosition(rb.position + movement);
     }
 
-    // 旋回のメソッド
     void Turn()
     {
         turnInputValue = Input.GetAxis("Horizontal");
