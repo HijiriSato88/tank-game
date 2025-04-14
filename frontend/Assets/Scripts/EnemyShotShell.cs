@@ -6,7 +6,7 @@ public class EnemyShotShell : MonoBehaviour
 {
     public GameObject enemyShellPrefab;
     public float shotSpeed;
-    //public AudioClip shotSound;
+    public AudioClip shotSound;
     private int shotIntarval;
 
     void Update()
@@ -21,7 +21,7 @@ public class EnemyShotShell : MonoBehaviour
 
             enemyShellRb.AddForce(transform.forward * shotSpeed);
 
-            //AudioSource.PlayClipAtPoint(shotSound, transform.position);
+            AudioSource.PlayClipAtPoint(shotSound, transform.position);
 
             Destroy(enemyShell, 3.0f);
         }
