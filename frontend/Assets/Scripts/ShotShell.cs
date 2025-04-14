@@ -27,7 +27,7 @@ public class ShotShell : MonoBehaviour
             Destroy(shell, 3.0f);
 
             // 砲弾の発射音を出す。
-            AudioSource.PlayClipAtPoint(shotSound, transform.position);
+            //AudioSource.PlayClipAtPoint(shotSound, transform.position);
         }
     }
 }
