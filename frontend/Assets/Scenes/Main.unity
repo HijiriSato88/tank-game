@@ -284,7 +284,7 @@ Transform:
   m_GameObject: {fileID: 389241930}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.98, y: 0.45, z: 0.88}
+  m_LocalPosition: {x: -5.92, y: 0.45, z: 0.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -304,7 +304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyShellPrefab: {fileID: 5419035392967237161, guid: 6a10113bb82674ed9a59570db4750272, type: 3}
   shotSpeed: 500
-  shotSound: {fileID: 0}
+  shotSound: {fileID: 8300000, guid: af66162561d2eed40ad49268cab318bb, type: 3}
 --- !u!135 &389241933
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -324,7 +324,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 20
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &389241934
 MonoBehaviour:
@@ -506,7 +506,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shellPrefab: {fileID: 2460657387701992819, guid: f6c6d02615c71431cb7f8a0c741400c6, type: 3}
   shotSpeed: 700
-  shotSound: {fileID: 0}
+  shotSound: {fileID: 8300000, guid: 8401456349c492a489ed90469e317e43, type: 3}
 --- !u!1 &793643644
 GameObject:
   m_ObjectHideFlags: 0
@@ -519,6 +519,7 @@ GameObject:
   - component: {fileID: 793643647}
   - component: {fileID: 793643646}
   - component: {fileID: 793643648}
+  - component: {fileID: 793643649}
   m_Layer: 0
   m_Name: Tank
   m_TagString: Player
@@ -607,6 +608,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.2, y: 1, z: 2.2}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &793643649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 793643644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8f24ce8283bd48ec9389945230a9b47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tankHP: 3
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -777,8 +791,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 903951ff530ad45ac92b9b15825c111d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectPrefab: {fileID: 0}
-  effectPrefab2: {fileID: 0}
   objectHP: 3
 --- !u!1 &1102061928
 GameObject:
@@ -899,6 +911,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192913081}
+  - component: {fileID: 1192913082}
+  - component: {fileID: 1192913083}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -915,7 +929,7 @@ Transform:
   m_GameObject: {fileID: 1192913080}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.04, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -925,6 +939,40 @@ Transform:
   - {fileID: 389241931}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1192913082
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1192913080}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.6, y: 2, z: 1.6}
+  m_Center: {x: -7, y: 0, z: 0}
+--- !u!114 &1192913083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1192913080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 903951ff530ad45ac92b9b15825c111d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectHP: 3
 --- !u!1 &1370647435
 GameObject:
   m_ObjectHideFlags: 0

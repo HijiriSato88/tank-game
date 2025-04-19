@@ -7,18 +7,19 @@ public class EnemyShotShell : MonoBehaviour
     public GameObject enemyShellPrefab;
     public float shotSpeed;
     public AudioClip shotSound;
-    private int shotIntarval;
+    private double shotIntarval;
 
     void Update()
     {
-        shotIntarval += 1;
+        shotIntarval += 0.5;
 
-        if (shotIntarval % 360 == 0)
+        if (shotIntarval % 60 == 0)
         {
             GameObject enemyShell = Instantiate(enemyShellPrefab, transform.position, Quaternion.identity);
 
             Rigidbody enemyShellRb = enemyShell.GetComponent<Rigidbody>();
 
+            // forwardはZ軸方向に力を加える。
             enemyShellRb.AddForce(transform.forward * shotSpeed);
 
             AudioSource.PlayClipAtPoint(shotSound, transform.position);
