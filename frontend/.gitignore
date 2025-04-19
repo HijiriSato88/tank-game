@@ -76,3 +76,6 @@ crashlytics-build.properties
 # Assets
 /[Aa]ssets/ShootingSound
 /[Aa]ssets/ShootingSound.meta
+# Assets
+/[Aa]ssets/TextMesh Pro
+/[Aa]ssets/TextMesh Pro.meta
