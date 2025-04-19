@@ -15,7 +15,10 @@ public class Chase : MonoBehaviour
 
     void Update()
     {
-        // ターゲットの位置を目的地に設定する。
+        // もしターゲットが存在しなければ何もしない
+        if (target == null) return;
+
+        // ターゲットの位置を目的地に設定
         agent.destination = target.transform.position;
     }
 }
