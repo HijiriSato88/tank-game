@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,14 +9,24 @@ public class Chase : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+
+        // targetが未設定ならPlayerタグを持つオブジェクト
+        if (target == null)
+        {
+            GameObject player = GameObject.FindWithTag("Player");
+            if (player != null)
+            {
+                target = player;
+            }
+        }
     }
 
     void Update()
     {
-        // もしターゲットが存在しなければ何もしない
-        if (target == null) return;
-
-        // ターゲットの位置を目的地に設定
-        agent.destination = target.transform.position;
+        // targetが見つかっていて、NavMesh上にいるときだけ追跡する
+        if (target != null && agent.isOnNavMesh)
+        {
+            agent.destination = target.transform.position;
+        }
     }
 }

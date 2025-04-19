@@ -7,16 +7,24 @@ public class DestroyObject : MonoBehaviour
     public int objectHP;
 
     private void OnTriggerEnter(Collider other)
+{
+    if (other.CompareTag("Shell"))
     {
-        if (other.CompareTag("Shell"))
-        {
-            objectHP -= 1;
-            Destroy(other.gameObject);
+        objectHP -= 1;
+        Destroy(other.gameObject);
 
-            if (objectHP <= 0)
+        if (objectHP <= 0)
+        {
+            // リスポーンマネージャーを探して復活を依頼する
+            GameObject respawner = GameObject.Find("EnemyRespawner");
+            if (respawner != null)
             {
-                Destroy(this.gameObject);
+                respawner.GetComponent<EnemyRespawner>().RespawnEnemy(transform.position);
             }
+
+            Destroy(this.gameObject);
         }
     }
+}
+
 }
