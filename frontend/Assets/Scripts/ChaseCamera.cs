@@ -15,6 +15,9 @@ public class ChaseCamera : MonoBehaviour
 
     void Update()
     {
+        // もしターゲットが存在しなければ何もしない
+        if (target == null) return;
+        
         // 最初に取得した位置関係を足すことで常に一定の距離を維持する
         transform.position = target.transform.position + offset;
     }
