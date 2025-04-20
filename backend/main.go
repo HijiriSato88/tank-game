@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"backend/db"
+	"backend/handler"
 
 	"github.com/labstack/echo/v4"
 )
@@ -16,6 +17,8 @@ func main() {
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "backend is go + mysql + redis + docker")
 	})
+
+	e.POST("/signup", handler.Signup)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
