@@ -20,5 +20,7 @@ func main() {
 
 	e.POST("/signup", handler.Signup)
 
+	e.POST("/login", handler.Login)
+
 	e.Logger.Fatal(e.Start(":8080"))
 }

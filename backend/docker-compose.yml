@@ -14,6 +14,7 @@ services:
     environment:
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
+      - JWT_SECRET=${JWT_SECRET}
     command: /bin/bash -c "go install github.com/air-verse/air@latest && /go/bin/air"
     networks:
       - app-network

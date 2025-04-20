@@ -2,8 +2,10 @@ package handler
 
 import (
 	"net/http"
+	
 	"backend/model"
 	"backend/repository"
+	"backend/pkg/jwtutil"
 
 	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
@@ -11,6 +13,11 @@ import (
 
 // リクエストボディ
 type SignupRequest struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+type LoginRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
@@ -41,4 +48,28 @@ func Signup(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusCreated, echo.Map{"message": "user created"})
+}
+
+func Login(c echo.Context) error {
+	var req LoginRequest
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": "invalid request"})
+	}
+
+	user, err := repository.GetUserByUsername(req.Username)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, echo.Map{"error": "user not found"})
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(req.Password))
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, echo.Map{"error": "invalid password"})
+	}
+
+	token, err := jwtutil.GenerateToken(user.ID)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "failed to generate token"})
+	}
+
+	return c.JSON(http.StatusOK, echo.Map{"token": token})
 }
