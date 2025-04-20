@@ -1,15 +1,15 @@
 package middleware
 
 import (
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
 	"os"
+	"github.com/labstack/echo/v4"
+	echojwt "github.com/labstack/echo-jwt/v4"
 )
 
 func JWT() echo.MiddlewareFunc {
-	return middleware.JWTWithConfig(middleware.JWTConfig{
+	return echojwt.WithConfig(echojwt.Config{
 		SigningKey:  []byte(os.Getenv("JWT_SECRET")),
 		TokenLookup: "header:Authorization",
-		AuthScheme:  "Bearer",
+		ContextKey:  "user",
 	})
 }

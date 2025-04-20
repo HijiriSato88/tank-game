@@ -23,7 +23,7 @@ func main() {
 	e.POST("/login", handler.Login)
 
 	auth := e.Group("/auth")
-	auth.Use(middleware.JWT())  // 自作のJWTミドルウェア関数
+	auth.Use(middleware.JWT())
 	auth.GET("/me", handler.Me)
 
 	e.Logger.Fatal(e.Start(":8080"))

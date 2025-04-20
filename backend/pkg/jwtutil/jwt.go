@@ -1,6 +1,7 @@
 package jwtutil
 
 import (
+	"fmt"
 	"os"
 	"time"
 
@@ -15,6 +16,8 @@ func GenerateToken(userID int) (string, error) {
 		"user_id": userID,
 		"exp":     time.Now().Add(24 * time.Hour).Unix(), // 24時間有効
 	})
+
+	fmt.Println("JWT_SECRET (Login):", secret)
 
 	return token.SignedString(secret)
 }
