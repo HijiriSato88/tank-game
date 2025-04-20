@@ -5,7 +5,7 @@ import (
 
 	"backend/db"
 	"backend/handler"
-	"backend/middleare"
+	"backend/middleware"
 
 	"github.com/labstack/echo/v4"
 )
