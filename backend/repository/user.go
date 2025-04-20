@@ -22,3 +22,12 @@ func GetUserByUsername(username string) (*model.User, error) {
 	}
 	return &user, nil
 }
+
+func GetUserByID(id int) (*model.User, error) {
+	var user model.User
+	err := db.DB.Get(&user, "SELECT * FROM users WHERE id = ?", id)
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
