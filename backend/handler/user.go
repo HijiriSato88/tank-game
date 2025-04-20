@@ -2,10 +2,10 @@ package handler
 
 import (
 	"net/http"
-	
+
 	"backend/model"
-	"backend/repository"
 	"backend/pkg/jwtutil"
+	"backend/repository"
 
 	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"

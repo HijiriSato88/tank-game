@@ -5,7 +5,7 @@ import (
 
 	"backend/db"
 	"backend/handler"
-	"backend/middleware"
+	"backend/pkg/jwtutil"
 
 	"github.com/labstack/echo/v4"
 )
@@ -23,7 +23,7 @@ func main() {
 	e.POST("/login", handler.Login)
 
 	auth := e.Group("/auth")
-	auth.Use(middleware.JWT())
+	auth.Use(jwtutil.JWTMiddleware())
 	auth.GET("/me", handler.Me)
 
 	e.Logger.Fatal(e.Start(":8080"))
