@@ -14,7 +14,14 @@ public class EnemyRespawner : MonoBehaviour
             StartCoroutine(RespawnCoroutine(position, respawnCount));
         }else
         {
-            Debug.Log("done");
+            TankHealth tank = FindObjectOfType<TankHealth>();
+            if (tank != null)
+            {
+                int enemiesDefeated = maxRespawns;
+                int score = enemiesDefeated * 100 + tank.tankHP * 10;
+
+                tank.StartCoroutine(tank.SendScoreToServer(score));
+            }
         }
     }
 

@@ -35,9 +35,6 @@ public class TankHealth : MonoBehaviour
     {
         int enemiesDefeated = GetLatestRespawnCount();
         int score = enemiesDefeated * 100 + tankHP * 10;
-
-        Debug.Log("Score: " + score);
-
         StartCoroutine(SendScoreToServer(score));
     }
 
@@ -54,10 +51,9 @@ public class TankHealth : MonoBehaviour
         return latest;
     }
 
-    IEnumerator SendScoreToServer(int score)
+    public IEnumerator SendScoreToServer(int score)
     {
         string token = PlayerPrefs.GetString("token", "");
-
         if (string.IsNullOrEmpty(token)) yield break;
 
         string url = "http://localhost:8080/auth/score";
@@ -74,14 +70,12 @@ public class TankHealth : MonoBehaviour
 
         yield return req.SendWebRequest();
 
-        if (req.responseCode == 200)
-        {
-            Debug.Log("スコア送信成功");
-        }
-        else
+        if (req.responseCode != 200)
         {
             Debug.LogError($"スコア送信失敗 ({req.responseCode}): " + req.error);
         }
+
+        ResultManager.Instance.ShowResult(score);
         Destroy(gameObject);
     }
 
