@@ -34,7 +34,6 @@ func JWTMiddleware() echo.MiddlewareFunc {
 
 	return echojwt.WithConfig(echojwt.Config{
 		SigningKey:  []byte(secret),
-		TokenLookup: "header:Authorization",
 		NewClaimsFunc: func(c echo.Context) jwt.Claims {
 			return new(CustomClaims)
 		},
@@ -43,8 +42,6 @@ func JWTMiddleware() echo.MiddlewareFunc {
 }
 
 func ExtractUser(c echo.Context) (*CustomClaims, error) {
-	fmt.Println("ExtractUser called")
-
 	token, ok := c.Get("user").(*jwt.Token)
 	if !ok {
 		fmt.Println("user is not *jwt.Token")
@@ -53,10 +50,8 @@ func ExtractUser(c echo.Context) (*CustomClaims, error) {
 
 	claims, ok := token.Claims.(*CustomClaims)
 	if !ok {
-		fmt.Printf("claims type mismatch: %#v\n", token.Claims)
 		return nil, fmt.Errorf("invalid claims type")
 	}
-
-	fmt.Printf("Extracted user_id: %d\n", claims.UserID)
+	
 	return claims, nil
 }
