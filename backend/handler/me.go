@@ -20,9 +20,7 @@ func Me(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, echo.Map{
-		"id":        u.ID,
 		"username":  u.Username,
 		"bestScore": u.BestScore,
-		"createdAt": u.CreatedAt,
 	})
 }
