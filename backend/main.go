@@ -28,6 +28,7 @@ func main() {
 	auth := e.Group("/auth")
 	auth.Use(jwtutil.JWTMiddleware())
 	auth.GET("/me", handler.Me)
+	auth.POST("/score", handler.UpdateScore)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
