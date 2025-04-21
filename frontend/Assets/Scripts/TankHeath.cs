@@ -1,17 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class TankHealth : MonoBehaviour
 {
+    public TMP_Text HPLabel;
+
     public int tankHP;
+
+    void Start()
+    {
+        HPLabel.text = "HP:" + tankHP;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        // 相手のTagがEnemyShell
         if (other.gameObject.tag == "EnemyShell")
         {
             tankHP -= 1;
+            HPLabel.text = "HP:" + tankHP;
             Destroy(other.gameObject);
 
             if (tankHP <= 0){
