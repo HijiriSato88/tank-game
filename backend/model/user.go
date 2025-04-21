@@ -1,10 +1,12 @@
 package model
 
+import "time"
+
 type User struct {
-	ID           int    `db:"id"`
-	Username     string `db:"username"`
-	PasswordHash string `db:"password_hash"`
-	BestScore	 string	`db:"best_score"`
-	CreatedAt    string `db:"created_at"`
-	UpdatedAt    string `db:"updated_at"`
+	ID           int       `db:"id"`
+	Username     string    `db:"username"`
+	PasswordHash string    `db:"password_hash"`
+	BestScore    int       `db:"best_score"`
+	CreatedAt    time.Time `db:"created_at"`
+	UpdatedAt    time.Time `db:"updated_at"`
 }

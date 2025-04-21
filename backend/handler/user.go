@@ -47,7 +47,13 @@ func Signup(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "failed to create user"})
 	}
 
-	return c.JSON(http.StatusCreated, echo.Map{"message": "user created"})
+	// 作成されたユーザー情報
+	return c.JSON(http.StatusCreated, echo.Map{
+		"message":   "user created",
+		"username":  user.Username,
+		"bestScore": user.BestScore,
+		"createdAt": user.CreatedAt,
+	})
 }
 
 func Login(c echo.Context) error {
