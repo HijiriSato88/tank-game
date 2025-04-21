@@ -46,8 +46,8 @@ public class LoginManager : MonoBehaviour
             string token = JsonUtility.FromJson<TokenResponse>(responseText).token;
             PlayerPrefs.SetString("token", token);
 
-            // ゲームシーンへ遷移
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Main");
+            // セレクトシーンへ遷移
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Select");
         }
         else
         {
