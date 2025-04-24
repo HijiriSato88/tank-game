@@ -9,6 +9,8 @@ public class LoginManager : MonoBehaviour
     public TMP_InputField usernameInput;
     public TMP_InputField passwordInput;
     public Button loginButton;
+    public TMP_Text errorMessageText;
+    private bool isErrorVisible = false;
 
     private string loginUrl = "http://localhost:8080/login";
 
@@ -17,11 +19,29 @@ public class LoginManager : MonoBehaviour
         loginButton.onClick.AddListener(OnLoginButtonClick);
     }
 
+    void Update()
+    {
+        if (isErrorVisible && Input.GetMouseButtonDown(0))
+        {
+            errorMessageText.text = "";
+            isErrorVisible = false;
+        }
+    }
+
     void OnLoginButtonClick()
     {
         string username = usernameInput.text;
         string password = passwordInput.text;
 
+        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+        {
+            errorMessageText.text = "Please enter your username and password.";
+            isErrorVisible = true;
+            return;
+        }
+
+        errorMessageText.text = "";
+        isErrorVisible = false;
         StartCoroutine(LoginRequest(username, password));
     }
 
@@ -51,7 +71,8 @@ public class LoginManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Login failed: " + request.error);
+            errorMessageText.text = "Incorrect user name or password.";
+            isErrorVisible = true;
         }
     }
 
