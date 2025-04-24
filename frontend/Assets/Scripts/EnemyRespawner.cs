@@ -12,15 +12,20 @@ public class EnemyRespawner : MonoBehaviour
         if (respawnCount <= maxRespawns)
         {
             StartCoroutine(RespawnCoroutine(position, respawnCount));
-        }else
+        }
+        else
         {
             TankHealth tank = FindObjectOfType<TankHealth>();
+
             if (tank != null)
             {
-                int enemiesDefeated = maxRespawns;
-                int score = enemiesDefeated * 100 + tank.tankHP * 10;
+                int score = ScoreManager.CalculateScore(tank.tankHP, maxRespawns);
 
-                tank.StartCoroutine(tank.SendScoreToServer(score));
+                StartCoroutine(ScoreManager.SendScoreToServer(score, () =>
+                {
+                    ResultManager.Instance.ShowResult(score);
+                    Destroy(tank.gameObject);
+                }));
             }
         }
     }
@@ -30,8 +35,6 @@ public class EnemyRespawner : MonoBehaviour
         yield return new WaitForSeconds(respawnDelay);
 
         GameObject newEnemy = Instantiate(enemyPrefab, pos, Quaternion.identity);
-
-        // 復活回数を新しい敵に渡す
         DestroyObject destroyScript = newEnemy.GetComponent<DestroyObject>();
         if (destroyScript != null)
         {
