@@ -21,6 +21,5 @@ func Me(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, echo.Map{
 		"username":  u.Username,
-		"bestScore": u.BestScore,
 	})
 }

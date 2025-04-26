@@ -51,7 +51,6 @@ func Signup(c echo.Context) error {
 	return c.JSON(http.StatusCreated, echo.Map{
 		"message":   "user created",
 		"username":  user.Username,
-		"bestScore": user.BestScore,
 		"createdAt": user.CreatedAt,
 	})
 }

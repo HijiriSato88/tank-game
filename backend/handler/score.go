@@ -23,24 +23,10 @@ func UpdateScore(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, echo.Map{"error": "invalid score"})
 	}
 
-	user, err := repository.GetUserByID(claims.UserID)
+	err = repository.InsertScore(claims.UserID, req.Score)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "user not found"})
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "failed to insert score"})
 	}
 
-	if req.Score > user.BestScore {
-		err = repository.UpdateBestScore(user.ID, req.Score)
-		if err != nil {
-			return c.JSON(http.StatusInternalServerError, echo.Map{"error": "failed to update score"})
-		}
-		user.BestScore = req.Score
-	}
-
-	return c.JSON(http.StatusOK, echo.Map{
-		"message":   "score updated",
-		"id":        user.ID,
-		"username":  user.Username,
-		"bestScore": user.BestScore,
-		"createdAt": user.CreatedAt,
-	})
+	return c.JSON(http.StatusOK, echo.Map{"message": "score inserted successfully"})
 }

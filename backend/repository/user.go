@@ -31,13 +31,3 @@ func GetUserByID(id int) (*model.User, error) {
 	}
 	return &user, nil
 }
-
-func UpdateBestScore(userID int, score int) error {
-	_, err := db.DB.Exec(`
-		UPDATE users
-		SET best_score = ?
-		WHERE id = ?`,
-		score, userID,
-	)
-	return err
-}
