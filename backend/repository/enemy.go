@@ -8,7 +8,7 @@ import (
 func GetAllEnemies() ([]model.Enemy, error) {
 	enemies := []model.Enemy{}
 	err := db.DB.Select(&enemies, `
-		SELECT id, hp, name, move_speed, created_at, updated_at
+		SELECT id, hp, name, move_speed, score
 		FROM enemies
 	`)
 	return enemies, err
@@ -17,7 +17,7 @@ func GetAllEnemies() ([]model.Enemy, error) {
 func GetEnemyByName(name string) (*model.Enemy, error) {
 	var enemy model.Enemy
 	err := db.DB.Get(&enemy, `
-		SELECT id, name, hp, move_speed
+		SELECT id, name, hp, move_speed, score
 		FROM enemies
 		WHERE name = ?
 	`, name)
