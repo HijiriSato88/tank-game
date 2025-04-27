@@ -35,8 +35,7 @@ func main() {
 
 	// 敵データ取得
 	e.GET("/enemies", handler.GetEnemies)
-	e.GET("/enemies/name", handler.GetEnemyByNameHandler)
-
+	e.GET("/enemies/name", handler.GetEnemyByNameFromRedisHandler)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
