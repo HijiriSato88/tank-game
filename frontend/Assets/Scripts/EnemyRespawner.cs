@@ -23,6 +23,7 @@ public class EnemyRespawner : MonoBehaviour
         if (destroyScript != null)
         {
             destroyScript.objectHP = EnemyDataFetcher.Instance.enemyData.hp;
+            destroyScript.enemyScore = EnemyDataFetcher.Instance.enemyData.score;
 
             var agent = newEnemy.GetComponent<UnityEngine.AI.NavMeshAgent>();
             if (agent != null)

@@ -10,6 +10,7 @@ public class EnemyData
     public string name;
     public int hp;
     public float move_speed;
+    public int score;
 }
 
 public class EnemyDataFetcher : MonoBehaviour
@@ -47,8 +48,8 @@ public class EnemyDataFetcher : MonoBehaviour
         if (request.result == UnityWebRequest.Result.Success)
         {
             enemyData = JsonUtility.FromJson<EnemyData>(request.downloadHandler.text);
-            isLoaded = true; // ★★ データロード完了時にtrueにする！
-            Debug.Log($"Enemy Data Loaded: {enemyData.name}, HP: {enemyData.hp}, Speed: {enemyData.move_speed}");
+            isLoaded = true; // データロード完了時にtrue
+            Debug.Log($"Enemy Data Loaded: {enemyData.name}, HP: {enemyData.hp}, Speed: {enemyData.move_speed}, Score: {enemyData.score}");
         }
         else
         {

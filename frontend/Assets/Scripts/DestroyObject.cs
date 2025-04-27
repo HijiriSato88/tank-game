@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class DestroyObject : MonoBehaviour
 {
-    public int objectHP = 0; // 初期化、ゲーム開始時にAPIから値が上書き
+    public int objectHP = 0;
     public int currentRespawnCount = 0;
+    public int enemyScore = 0;
 
     private bool isDead = false;
 
@@ -20,7 +21,9 @@ public class DestroyObject : MonoBehaviour
             {
                 isDead = true;
 
-                GameManager.Instance.OnEnemyDefeated(); // ★ GameManagerに倒された通知
+                ScoreManager.AddEnemyScore(enemyScore);
+
+                GameManager.Instance.OnEnemyDefeated();
 
                 Destroy(this.gameObject);
             }

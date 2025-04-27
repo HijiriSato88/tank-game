@@ -36,7 +36,9 @@ public class GameManager : MonoBehaviour
         if (enemyQueue.Count == 0)
         {
             Debug.Log("Game Clear!");
-            // ここでクリア演出やシーン遷移など
+            TankHealth player = FindObjectOfType<TankHealth>();
+            int playerRemainingHP = player != null ? player.tankHP : 0;
+            OnGameClear(playerRemainingHP);
             return;
         }
 
@@ -60,5 +62,19 @@ public class GameManager : MonoBehaviour
     public void OnEnemyDefeated()
     {
         SpawnNextEnemy();
+    }
+
+    public void OnPlayerDead(int playerRemainingHP)
+    {
+        int finalScore = ScoreManager.GetTotalScore(playerRemainingHP);
+        StartCoroutine(ScoreManager.SendScoreToServer(finalScore));
+        ResultManager.Instance.ShowResult(finalScore);
+    }
+
+    public void OnGameClear(int playerRemainingHP)
+    {
+        int finalScore = ScoreManager.GetTotalScore(playerRemainingHP);
+        StartCoroutine(ScoreManager.SendScoreToServer(finalScore));
+        ResultManager.Instance.ShowResult(finalScore);
     }
 }

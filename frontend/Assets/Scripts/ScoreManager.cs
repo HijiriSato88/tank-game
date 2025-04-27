@@ -4,15 +4,27 @@ using UnityEngine.Networking;
 
 public static class ScoreManager
 {
+    private static int totalScore = 0;
+
     [System.Serializable]
     private class ScoreData
     {
         public int score;
     }
 
+    public static void AddEnemyScore(int enemyScore)
+    {
+        totalScore += enemyScore;
+    }
+
     public static int CalculateScore(int tankHP, int enemiesDefeated)
     {
         return enemiesDefeated * 100 + tankHP * 10;
+    }
+
+    public static int GetTotalScore(int playerRemainingHP)
+    {
+        return totalScore + (playerRemainingHP * 10);
     }
 
     public static IEnumerator SendScoreToServer(int score, System.Action onSuccess = null, System.Action<string> onFailure = null)

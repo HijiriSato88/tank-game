@@ -24,27 +24,9 @@ public class TankHealth : MonoBehaviour
             if (tankHP <= 0)
             {
                 HPLabel.text = "HP:0";
-                int enemiesDefeated = GetLatestRespawnCount();
-                int score = ScoreManager.CalculateScore(tankHP, enemiesDefeated);
-
-                StartCoroutine(ScoreManager.SendScoreToServer(score, () =>
-                {
-                    ResultManager.Instance.ShowResult(score);
-                    Destroy(gameObject);
-                }));
+                GameManager.Instance.OnPlayerDead(tankHP);
+                Destroy(this.gameObject);
             }
         }
-    }
-
-    int GetLatestRespawnCount()
-    {
-        DestroyObject[] enemies = FindObjectsOfType<DestroyObject>();
-        int latest = 0;
-        foreach (var e in enemies)
-        {
-            if (e.currentRespawnCount > latest)
-                latest = e.currentRespawnCount;
-        }
-        return latest;
     }
 }
