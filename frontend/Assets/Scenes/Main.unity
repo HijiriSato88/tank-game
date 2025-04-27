@@ -1661,6 +1661,7 @@ MonoBehaviour:
     name: 
     hp: 0
     move_speed: 0
+    score: 0
   isLoaded: 0
 --- !u!1 &964262100
 GameObject:
