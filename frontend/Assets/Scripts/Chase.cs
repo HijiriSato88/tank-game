@@ -23,10 +23,10 @@ public class Chase : MonoBehaviour
 
     void Update()
     {
-        // targetが見つかっていて、NavMesh上にいるときだけ追跡する
         if (target != null && agent.isOnNavMesh)
         {
             agent.destination = target.transform.position;
+            agent.speed = 4f; 
         }
     }
 }
