@@ -1,44 +1,34 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 
 public class EnemyRespawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
-    public float respawnDelay = 3f;
-    public int maxRespawns = 4;
 
-    public void RespawnEnemy(Vector3 position, int respawnCount)
+    public void StartRespawn(Vector3 position)
     {
-        if (respawnCount <= maxRespawns)
-        {
-            StartCoroutine(RespawnCoroutine(position, respawnCount));
-        }
-        else
-        {
-            TankHealth tank = FindObjectOfType<TankHealth>();
-
-            if (tank != null)
-            {
-                int score = ScoreManager.CalculateScore(tank.tankHP, maxRespawns);
-
-                StartCoroutine(ScoreManager.SendScoreToServer(score, () =>
-                {
-                    ResultManager.Instance.ShowResult(score);
-                    Destroy(tank.gameObject);
-                }));
-            }
-        }
+        StartCoroutine(SpawnEnemyWhenReady(position));
     }
 
-    private IEnumerator RespawnCoroutine(Vector3 pos, int count)
+    private IEnumerator SpawnEnemyWhenReady(Vector3 position)
     {
-        yield return new WaitForSeconds(respawnDelay);
+        while (!EnemyDataFetcher.Instance.isLoaded)
+        {
+            yield return null;
+        }
 
-        GameObject newEnemy = Instantiate(enemyPrefab, pos, Quaternion.identity);
+        GameObject newEnemy = Instantiate(enemyPrefab, position, Quaternion.identity);
+
         DestroyObject destroyScript = newEnemy.GetComponent<DestroyObject>();
         if (destroyScript != null)
         {
-            destroyScript.currentRespawnCount = count;
+            destroyScript.objectHP = EnemyDataFetcher.Instance.enemyData.hp;
+
+            var agent = newEnemy.GetComponent<UnityEngine.AI.NavMeshAgent>();
+            if (agent != null)
+            {
+                agent.speed = EnemyDataFetcher.Instance.enemyData.move_speed;
+            }
         }
     }
 }

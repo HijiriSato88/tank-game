@@ -10,6 +10,9 @@ public class Chase : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
 
+        // スポーン直後に1回だけセット
+        agent.speed = EnemyDataFetcher.Instance.enemyData.move_speed;
+
         // targetが未設定ならPlayerタグを持つオブジェクト
         if (target == null)
         {
@@ -26,7 +29,6 @@ public class Chase : MonoBehaviour
         if (target != null && agent.isOnNavMesh)
         {
             agent.destination = target.transform.position;
-            agent.speed = 4f; 
         }
     }
 }

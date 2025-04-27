@@ -2,14 +2,13 @@ using UnityEngine;
 
 public class DestroyObject : MonoBehaviour
 {
-    public int objectHP = 3;
+    public int objectHP = 0; // 初期化、ゲーム開始時にAPIから値が上書き
     public int currentRespawnCount = 0;
 
     private bool isDead = false;
 
     private void OnTriggerEnter(Collider other)
     {
-        // 弾が複数フレームに渡って当たると、OnTriggerEnter が複数回発火され2体復活するケースを防ぐために以下のフラグで解決
         if (isDead) return;
 
         if (other.CompareTag("Shell"))
@@ -21,11 +20,7 @@ public class DestroyObject : MonoBehaviour
             {
                 isDead = true;
 
-                GameObject respawner = GameObject.Find("EnemyRespawner");
-                if (respawner != null)
-                {
-                    respawner.GetComponent<EnemyRespawner>().RespawnEnemy(transform.position, currentRespawnCount + 1);
-                }
+                GameManager.Instance.OnEnemyDefeated(); // ★ GameManagerに倒された通知
 
                 Destroy(this.gameObject);
             }
