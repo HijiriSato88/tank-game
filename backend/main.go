@@ -19,6 +19,7 @@ func main() {
 	}
 
 	db.SetupDB()
+	db.InitRedis()
 
 	e := echo.New()
 
