@@ -19,24 +19,32 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
+	// DB設定
 	db.SetupDB()
 	db.InitRedis()
 
+	// echo設定
 	e := echo.New()
 
-	r := infra.NewUserRepository()
-	u := usecase.NewUserUsecase(r)
-	h := handler.NewUserHandler(u)
+	// user
+	userRepo := infra.NewUserRepository()
+	userUsecase := usecase.NewUserUsecase(userRepo)
+	userHandler := handler.NewUserHandler(userUsecase)
+
+	// score
+	scoreRepo := infra.NewScoreRepository()
+	scoreUsecase := usecase.NewScoreUsecase(scoreRepo)
+	scoreHandler := handler.NewScoreHandler(scoreUsecase)
 
 	// 新規登録、ログイン
-	e.POST("/signup", h.Signup)
-	e.POST("/login", h.Login)
+	e.POST("/signup", userHandler.Signup)
+	e.POST("/login", userHandler.Login)
 
 	// ログイン以降
 	auth := e.Group("/auth")
 	auth.Use(jwtutil.JWTMiddleware())
-	auth.GET("/me", h.Me)
-	auth.POST("/score", handler.InsertScore)
+	auth.GET("/me", userHandler.Me)
+	auth.POST("/score", scoreHandler.InsertScore)
 
 	// 敵データ取得
 	e.GET("/enemies", handler.GetEnemies)
