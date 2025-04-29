@@ -31,7 +31,7 @@ func main() {
 	auth := e.Group("/auth")
 	auth.Use(jwtutil.JWTMiddleware())
 	auth.GET("/me", handler.Me)
-	auth.POST("/score", handler.UpdateScore)
+	auth.POST("/score", handler.InsertScore)
 
 	// 敵データ取得
 	e.GET("/enemies", handler.GetEnemies)

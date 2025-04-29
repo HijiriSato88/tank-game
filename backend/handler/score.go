@@ -12,7 +12,7 @@ type ScoreRequest struct {
 	Score int `json:"score"`
 }
 
-func UpdateScore(c echo.Context) error {
+func InsertScore(c echo.Context) error {
 	claims, err := jwtutil.ExtractUser(c)
 	if err != nil {
 		return c.JSON(http.StatusUnauthorized, echo.Map{"error": "invalid token"})
