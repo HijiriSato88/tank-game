@@ -2,7 +2,7 @@ package repository
 
 import (
 	"backend/db"
-	"backend/model"
+	"backend/domain/model"
 	"context"
 	"fmt"
 

@@ -1,11 +1,18 @@
-package repository
+package infra
 
 import (
 	"backend/db"
 	"backend/domain/model"
+	"backend/domain/repository"
 )
 
-func CreateUser(user *model.User) error {
+type userRepository struct{}
+
+func NewUserRepository() repository.UserRepository {
+	return &userRepository{}
+}
+
+func (r *userRepository) Create(user *model.User) error {
 	_, err := db.DB.Exec(`
 		INSERT INTO users (username, password_hash)
 		VALUES (?, ?)`,
@@ -14,7 +21,7 @@ func CreateUser(user *model.User) error {
 	return err
 }
 
-func GetUserByUsername(username string) (*model.User, error) {
+func (r *userRepository) GetByUsername(username string) (*model.User, error) {
 	var user model.User
 	err := db.DB.Get(&user, "SELECT * FROM users WHERE username = ?", username)
 	if err != nil {
@@ -23,7 +30,7 @@ func GetUserByUsername(username string) (*model.User, error) {
 	return &user, nil
 }
 
-func GetUserByID(id int) (*model.User, error) {
+func (r *userRepository) GetByID(id int) (*model.User, error) {
 	var user model.User
 	err := db.DB.Get(&user, "SELECT * FROM users WHERE id = ?", id)
 	if err != nil {

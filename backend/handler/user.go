@@ -1,17 +1,21 @@
 package handler
 
 import (
+	"backend/pkg/jwtutil"
+	"backend/usecase"
 	"net/http"
 
-	"backend/model"
-	"backend/pkg/jwtutil"
-	"backend/repository"
-
 	"github.com/labstack/echo/v4"
-	"golang.org/x/crypto/bcrypt"
 )
 
-// リクエストボディ
+type UserHandler struct {
+	userUsecase usecase.UserUsecase
+}
+
+func NewUserHandler(u usecase.UserUsecase) *UserHandler {
+	return &UserHandler{userUsecase: u}
+}
+
 type SignupRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
@@ -22,32 +26,15 @@ type LoginRequest struct {
 	Password string `json:"password"`
 }
 
-func Signup(c echo.Context) error {
+func (h *UserHandler) Signup(c echo.Context) error {
 	var req SignupRequest
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, echo.Map{"error": "invalid request"})
 	}
-	if req.Username == "" || req.Password == "" {
-		return c.JSON(http.StatusBadRequest, echo.Map{"error": "username and password required"})
-	}
-
-	// bcryptでパスワードをハッシュ化
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "failed to hash password"})
-	}
-
-	user := model.User{
-		Username:     req.Username,
-		PasswordHash: string(hashedPassword),
-	}
-
-	err = repository.CreateUser(&user)
+	user, err := h.userUsecase.Signup(req.Username, req.Password)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "failed to create user"})
 	}
-
-	// 作成されたユーザー情報
 	return c.JSON(http.StatusCreated, echo.Map{
 		"message":   "user created",
 		"username":  user.Username,
@@ -55,20 +42,14 @@ func Signup(c echo.Context) error {
 	})
 }
 
-func Login(c echo.Context) error {
+func (h *UserHandler) Login(c echo.Context) error {
 	var req LoginRequest
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, echo.Map{"error": "invalid request"})
 	}
-
-	user, err := repository.GetUserByUsername(req.Username)
+	user, err := h.userUsecase.Login(req.Username, req.Password)
 	if err != nil {
-		return c.JSON(http.StatusUnauthorized, echo.Map{"error": "user not found"})
-	}
-
-	err = bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(req.Password))
-	if err != nil {
-		return c.JSON(http.StatusUnauthorized, echo.Map{"error": "invalid password"})
+		return c.JSON(http.StatusUnauthorized, echo.Map{"error": "invalid username or password"})
 	}
 
 	token, err := jwtutil.GenerateToken(user.ID)
@@ -79,18 +60,14 @@ func Login(c echo.Context) error {
 	return c.JSON(http.StatusOK, echo.Map{"token": token})
 }
 
-func Me(c echo.Context) error {
+func (h *UserHandler) Me(c echo.Context) error {
 	claims, err := jwtutil.ExtractUser(c)
 	if err != nil {
 		return c.JSON(http.StatusUnauthorized, echo.Map{"error": "invalid token"})
 	}
-
-	u, err := repository.GetUserByID(claims.UserID)
+	user, err := h.userUsecase.GetUser(claims.UserID)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "user not found"})
 	}
-
-	return c.JSON(http.StatusOK, echo.Map{
-		"username":  u.Username,
-	})
+	return c.JSON(http.StatusOK, echo.Map{"username": user.Username})
 }

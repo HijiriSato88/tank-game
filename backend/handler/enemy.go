@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"backend/model"
+	"backend/domain/model"
 	"backend/repository"
 	"encoding/json"
 	"net/http"
