@@ -51,9 +51,8 @@ func main() {
 	auth.POST("/score", scoreHandler.InsertScore)
 
 	// 敵データ取得
-
 	e.GET("/enemies", enemyHandler.GetEnemies)
-	//e.GET("/enemies", handler.GetEnemies)
+	e.GET("/enemy", enemyHandler.GetEnemyByName)
 	//e.GET("/enemies/name", handler.GetEnemyByNameFromRedisHandler)
 
 	e.Logger.Fatal(e.Start(":8080"))

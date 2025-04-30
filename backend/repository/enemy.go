@@ -2,7 +2,6 @@ package repository
 
 import (
 	"backend/db"
-	"backend/domain/model"
 	"context"
 	"fmt"
 
@@ -10,19 +9,6 @@ import (
 )
 
 var ctx = context.Background()
-
-func GetEnemyByName(name string) (*model.Enemy, error) {
-	var enemy model.Enemy
-	err := db.DB.Get(&enemy, `
-		SELECT id, name, hp, move_speed, score
-		FROM enemies
-		WHERE name = ?
-	`, name)
-	if err != nil {
-		return nil, err
-	}
-	return &enemy, nil
-}
 
 func GetEnemyByNameFromRedis(name string) (string, error) {
 	key := fmt.Sprintf("enemy:%s", name)

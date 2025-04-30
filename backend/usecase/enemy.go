@@ -7,6 +7,7 @@ import (
 
 type EnemyUsecase interface {
 	GetAll() ([]model.Enemy, error)
+	GetByName(name string) (*model.Enemy, error)
 }
 
 type enemyUsecase struct {
@@ -19,4 +20,8 @@ func NewEnemyUsecase(r repository.EnemyRepository) EnemyUsecase {
 
 func (u *enemyUsecase) GetAll() ([]model.Enemy, error) {
 	return u.repo.GetAll()
+}
+
+func (u * enemyUsecase) GetByName(name string) (*model.Enemy, error) {
+	return u.repo.GetByName(name)
 }

@@ -25,8 +25,7 @@ func (h *EnemyHandler) GetEnemies(c echo.Context) error {
 	return c.JSON(http.StatusOK, enemies)
 }
 
-/*
-func GetEnemyByNameHandler(c echo.Context) error {
+func (h *EnemyHandler) GetEnemyByName(c echo.Context) error {
 	name := c.QueryParam("name")
 	if name == "" {
 		return c.JSON(http.StatusBadRequest, echo.Map{
@@ -34,7 +33,7 @@ func GetEnemyByNameHandler(c echo.Context) error {
 		})
 	}
 
-	enemy, err := repository.GetEnemyByName(name)
+	enemy, err := h.enemyUsecase.GetByName(name)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, echo.Map{
 			"error": "enemy not found in mysql",
@@ -44,6 +43,7 @@ func GetEnemyByNameHandler(c echo.Context) error {
 	return c.JSON(http.StatusOK, enemy)
 }
 
+/*
 func GetEnemyByNameFromRedisHandler(c echo.Context) error {
 	name := c.QueryParam("name")
 	if name == "" {

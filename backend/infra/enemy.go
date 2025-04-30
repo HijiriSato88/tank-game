@@ -20,3 +20,13 @@ func (r *enemyRepository) GetAll() ([]model.Enemy, error) {
 	`)
 	return enemies, err
 }
+
+func (r *enemyRepository) GetByName(name string) (*model.Enemy, error) {
+	var enemy model.Enemy;
+	err := db.DB.Get(&enemy, `
+		SELECT id, name, hp, move_speed, score
+		FROM enemies
+		WHERE name = ?
+	`, name)
+	return &enemy, err
+}
