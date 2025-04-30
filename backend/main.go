@@ -36,6 +36,7 @@ func main() {
 	scoreUsecase := usecase.NewScoreUsecase(scoreRepo)
 	scoreHandler := handler.NewScoreHandler(scoreUsecase)
 
+	// enemy
 	enemyRepo := infra.NewEnemyRepository()
 	enemyUsecase := usecase.NewEnemyUsecase(enemyRepo)
 	enemyHandler := handler.NewEnemyHandler(enemyUsecase)
@@ -50,10 +51,9 @@ func main() {
 	auth.GET("/me", userHandler.Me)
 	auth.POST("/score", scoreHandler.InsertScore)
 
-	// 敵データ取得
+	// enemy取得
 	e.GET("/enemies", enemyHandler.GetEnemies)
 	e.GET("/enemy", enemyHandler.GetEnemyByName)
-	//e.GET("/enemies/name", handler.GetEnemyByNameFromRedisHandler)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
