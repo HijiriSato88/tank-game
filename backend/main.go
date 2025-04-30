@@ -36,6 +36,10 @@ func main() {
 	scoreUsecase := usecase.NewScoreUsecase(scoreRepo)
 	scoreHandler := handler.NewScoreHandler(scoreUsecase)
 
+	enemyRepo := infra.NewEnemyRepository()
+	enemyUsecase := usecase.NewEnemyUsecase(enemyRepo)
+	enemyHandler := handler.NewEnemyHandler(enemyUsecase)
+
 	// 新規登録、ログイン
 	e.POST("/signup", userHandler.Signup)
 	e.POST("/login", userHandler.Login)
@@ -47,8 +51,10 @@ func main() {
 	auth.POST("/score", scoreHandler.InsertScore)
 
 	// 敵データ取得
-	e.GET("/enemies", handler.GetEnemies)
-	e.GET("/enemies/name", handler.GetEnemyByNameFromRedisHandler)
+
+	e.GET("/enemies", enemyHandler.GetEnemies)
+	//e.GET("/enemies", handler.GetEnemies)
+	//e.GET("/enemies/name", handler.GetEnemyByNameFromRedisHandler)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

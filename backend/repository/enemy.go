@@ -11,15 +11,6 @@ import (
 
 var ctx = context.Background()
 
-func GetAllEnemies() ([]model.Enemy, error) {
-	enemies := []model.Enemy{}
-	err := db.DB.Select(&enemies, `
-		SELECT id, hp, name, move_speed, score
-		FROM enemies
-	`)
-	return enemies, err
-}
-
 func GetEnemyByName(name string) (*model.Enemy, error) {
 	var enemy model.Enemy
 	err := db.DB.Get(&enemy, `

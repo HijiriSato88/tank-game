@@ -1,25 +1,31 @@
 package handler
 
 import (
-	"backend/domain/model"
-	"backend/repository"
-	"encoding/json"
+	"backend/usecase"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
 
-func GetEnemies(c echo.Context) error {
-	enemies, err := repository.GetAllEnemies()
+type EnemyHandler struct {
+	enemyUsecase usecase.EnemyUsecase
+}
+
+func NewEnemyHandler(u usecase.EnemyUsecase) *EnemyHandler {
+	return &EnemyHandler{enemyUsecase: u}
+}
+
+func (h *EnemyHandler) GetEnemies(c echo.Context) error {
+	enemies, err := h.enemyUsecase.GetAll()
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, echo.Map{
 			"error": "failed to get enemies",
 		})
 	}
-
 	return c.JSON(http.StatusOK, enemies)
 }
 
+/*
 func GetEnemyByNameHandler(c echo.Context) error {
 	name := c.QueryParam("name")
 	if name == "" {
@@ -64,3 +70,4 @@ func GetEnemyByNameFromRedisHandler(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, enemy)
 }
+*/
