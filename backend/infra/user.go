@@ -23,7 +23,7 @@ func (r *userRepository) Create(user *model.User) error {
 
 func (r *userRepository) GetByUsername(username string) (*model.User, error) {
 	var user model.User
-	err := db.DB.Get(&user, "SELECT * FROM users WHERE username = ?", username)
+	err := db.DB.Get(&user, "SELECT id, username, password_hash FROM users WHERE username = ?", username)
 	if err != nil {
 		return nil, err
 	}
@@ -32,7 +32,7 @@ func (r *userRepository) GetByUsername(username string) (*model.User, error) {
 
 func (r *userRepository) GetByID(id int) (*model.User, error) {
 	var user model.User
-	err := db.DB.Get(&user, "SELECT * FROM users WHERE id = ?", id)
+	err := db.DB.Get(&user, "SELECT id, username FROM users WHERE id = ?", id)
 	if err != nil {
 		return nil, err
 	}
