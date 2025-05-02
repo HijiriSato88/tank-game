@@ -25,7 +25,7 @@ public class SelectManager : MonoBehaviour
 
     void OnGameStartClicked()
     {
-        SceneManager.LoadScene("Main"); // ✅ Mainシーンへ遷移
+        SceneManager.LoadScene("Main");
     }
 
     void OnRankingClicked()
@@ -62,9 +62,6 @@ public class SelectManager : MonoBehaviour
     [System.Serializable]
     public class MeResponse
     {
-        public int id;
         public string username;
-        public int bestScore;
-        public string createdAt;
     }
 }

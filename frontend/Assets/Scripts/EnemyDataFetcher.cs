@@ -40,7 +40,7 @@ public class EnemyDataFetcher : MonoBehaviour
 
     private IEnumerator FetchEnemyCoroutine(string enemyName)
     {
-        string url = $"http://localhost:8080/enemies/name?name={enemyName}";
+        string url = $"http://localhost:8080/enemy?name={enemyName}";
         UnityWebRequest request = UnityWebRequest.Get(url);
 
         yield return request.SendWebRequest();
