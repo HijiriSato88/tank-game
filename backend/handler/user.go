@@ -71,3 +71,25 @@ func (h *UserHandler) Me(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, echo.Map{"username": user.Username})
 }
+
+func (h *UserHandler) UpdateHighScore(c echo.Context) error {
+	claims, err := jwtutil.ExtractUser(c)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, echo.Map{"error": "invalid token"})
+	}
+
+	var body struct {
+		Score int `json:"score"`
+	}
+
+	if err := c.Bind(&body); err != nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": "invalid request"})
+	}
+
+	err = h.userUsecase.UpdateHighScore(claims.UserID, body.Score)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "failed to update high score"})
+	}
+
+	return c.JSON(http.StatusOK, echo.Map{"message": "high score updated"})
+}

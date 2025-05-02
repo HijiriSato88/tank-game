@@ -11,6 +11,7 @@ type UserUsecase interface {
 	Signup(username, password string) (*model.User, error)
 	Login(username, password string) (*model.User, error)
 	GetUser(userID int) (*model.User, error)
+	UpdateHighScore(userID int, newScore int) error
 }
 
 type userUsecase struct {
@@ -51,4 +52,16 @@ func (u *userUsecase) Login(username, password string) (*model.User, error) {
 
 func (u *userUsecase) GetUser(userID int) (*model.User, error) {
 	return u.userRepo.GetByID(userID)
+}
+
+func (u *userUsecase) UpdateHighScore(userID int, newScore int) error {
+	user, err := u.userRepo.GetByID(userID)
+	if err != nil {
+		return err
+	}
+	
+	if newScore > user.HighScore {
+		return u.userRepo.UpdateHighScore(userID, newScore)
+	}
+	return nil
 }

@@ -31,11 +31,6 @@ func main() {
 	userUsecase := usecase.NewUserUsecase(userRepo)
 	userHandler := handler.NewUserHandler(userUsecase)
 
-	// score
-	scoreRepo := infra.NewScoreRepository()
-	scoreUsecase := usecase.NewScoreUsecase(scoreRepo)
-	scoreHandler := handler.NewScoreHandler(scoreUsecase)
-
 	// enemy
 	enemyRepo := infra.NewEnemyRepository()
 	enemyUsecase := usecase.NewEnemyUsecase(enemyRepo)
@@ -49,7 +44,7 @@ func main() {
 	auth := e.Group("/auth")
 	auth.Use(jwtutil.JWTMiddleware())
 	auth.GET("/me", userHandler.Me)
-	auth.POST("/score", scoreHandler.InsertScore)
+	auth.POST("/score", userHandler.UpdateHighScore)
 
 	// enemy取得
 	e.GET("/enemies", enemyHandler.GetEnemies)

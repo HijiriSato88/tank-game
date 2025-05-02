@@ -32,9 +32,17 @@ func (r *userRepository) GetByUsername(username string) (*model.User, error) {
 
 func (r *userRepository) GetByID(id int) (*model.User, error) {
 	var user model.User
-	err := db.DB.Get(&user, "SELECT id, username FROM users WHERE id = ?", id)
+	err := db.DB.Get(&user, "SELECT id, username, high_score FROM users WHERE id = ?", id)
 	if err != nil {
 		return nil, err
 	}
 	return &user, nil
+}
+
+func (r *userRepository) UpdateHighScore(userID int, highScore int) error {
+	_, err := db.DB.Exec(`
+		UPDATE users SET high_score = ?, updated_at = NOW()
+		WHERE id = ?
+	`, highScore, userID)
+	return err
 }
