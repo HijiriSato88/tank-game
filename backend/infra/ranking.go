@@ -17,6 +17,7 @@ func (r *rankingRepository) GetRanking(limit int) ([]model.RankingEntry, error) 
 	err := db.DB.Select(&rankings, `
 		SELECT id, username, high_score
 		FROM users
+		WHERE high_score > 0
 		ORDER BY high_score DESC
 		LIMIT ?
 	`, limit)
