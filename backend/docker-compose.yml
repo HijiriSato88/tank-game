@@ -30,6 +30,8 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     volumes:
       - db-data:/var/lib/mysql
+      - ./mysql/conf.d:/etc/mysql/conf.d
+      - ./mysql/logs:/var/log/mysql
     networks:
       - app-network
 
