@@ -30,8 +30,7 @@ public class SelectManager : MonoBehaviour
 
     void OnRankingClicked()
     {
-        Debug.Log("ランキング画面表示予定");
-        // SceneManager.LoadScene("Ranking"); ←必要なら追加
+        SceneManager.LoadScene("Ranking");
     }
 
     IEnumerator LoadUserInfo()
