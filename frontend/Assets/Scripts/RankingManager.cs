@@ -30,6 +30,11 @@ public class RankingManager : MonoBehaviour
         StartCoroutine(LoadRanking());
     }
 
+    public void OnBackButtonClicked()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Select");
+    }
+
     IEnumerator LoadRanking()
     {
         UnityWebRequest request = UnityWebRequest.Get(rankingUrl);
