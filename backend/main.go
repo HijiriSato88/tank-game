@@ -36,6 +36,11 @@ func main() {
 	enemyUsecase := usecase.NewEnemyUsecase(enemyRepo)
 	enemyHandler := handler.NewEnemyHandler(enemyUsecase)
 
+	// ranking
+	rankingRepo := infra.NewRankingRepository()
+	rankingUsecase := usecase.NewRankingUsecase(rankingRepo)
+	rankingHandler := handler.NewRankingHandler(rankingUsecase)
+
 	// 新規登録、ログイン
 	e.POST("/signup", userHandler.Signup)
 	e.POST("/login", userHandler.Login)
@@ -49,6 +54,7 @@ func main() {
 	// enemy取得
 	e.GET("/enemies", enemyHandler.GetEnemies)
 	e.GET("/enemy", enemyHandler.GetEnemyByName)
+	e.GET("/ranking", rankingHandler.GetRanking)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
