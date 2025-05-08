@@ -14,9 +14,9 @@ public class RankingManager : MonoBehaviour
     [System.Serializable]
     public class RankingEntry
     {
-        public int user_id;
         public string username;
         public int high_score;
+        public int rank;
     }
 
     [System.Serializable]
@@ -49,7 +49,7 @@ public class RankingManager : MonoBehaviour
             {
                 GameObject obj = Instantiate(rankingEntryPrefab, rankingContainer);
                 TMP_Text text = obj.GetComponent<TMP_Text>();
-                text.text = $"{entry.username} : {entry.high_score}";
+                text.text = $"{entry.rank} . {entry.username} : {entry.high_score}";
             }
         }
         else
