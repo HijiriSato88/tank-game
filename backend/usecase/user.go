@@ -68,7 +68,7 @@ func (u *userUsecase) UpdateHighScore(userID int, newScore int) error {
 		if err := u.userRepo.UpdateHighScore(userID, newScore); err != nil {
 			return err
 		}
-		if err := u.rankingRepo.ZAddScore(userID, newScore); err != nil {
+		if err := u.rankingRepo.ZAddScore(user.Username, newScore); err != nil {
 			return err
 		}
 	}
