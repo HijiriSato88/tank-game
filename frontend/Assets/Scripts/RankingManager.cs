@@ -9,7 +9,7 @@ public class RankingManager : MonoBehaviour
     public GameObject rankingEntryPrefab;
     public Transform rankingContainer;
 
-    private string rankingUrl = "http://localhost:8080/ranking?limit=100";
+    private string rankingUrl = "http://localhost:8080/ranking?event_slug=test_event_yearly";
 
     [System.Serializable]
     public class RankingEntry

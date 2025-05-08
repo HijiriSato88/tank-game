@@ -17,6 +17,11 @@ func NewRankingHandler(u usecase.RankingUsecase) *RankingHandler {
 }
 
 func (h *RankingHandler) GetRanking(c echo.Context) error {
+	eventSlug := c.QueryParam("event_slug")
+	if eventSlug == "" {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": "event_slug is required"})
+	}
+
 	limitParam := c.QueryParam("limit")
 	limit := 10
 	if limitParam != "" {
@@ -28,7 +33,7 @@ func (h *RankingHandler) GetRanking(c echo.Context) error {
 		limit = 1000
 	}
 
-	rankings, err := h.rankingUsecase.GetRanking(limit)
+	rankings, err := h.rankingUsecase.GetRanking(eventSlug, limit)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "failed to get ranking"})
 	}

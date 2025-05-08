@@ -79,14 +79,15 @@ func (h *UserHandler) UpdateHighScore(c echo.Context) error {
 	}
 
 	var body struct {
-		Score int `json:"score"`
+		EventSlug 	string 	`json:"event_slug"`
+		Score 		int 	`json:"score"`
 	}
 
 	if err := c.Bind(&body); err != nil {
 		return c.JSON(http.StatusBadRequest, echo.Map{"error": "invalid request"})
 	}
 
-	err = h.userUsecase.UpdateHighScore(claims.UserID, body.Score)
+	err = h.userUsecase.UpdateHighScore(claims.UserID, body.EventSlug, body.Score)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "failed to update high score"})
 	}

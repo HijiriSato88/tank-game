@@ -6,7 +6,7 @@ import (
 )
 
 type RankingUsecase interface {
-	GetRanking(limit int) ([]model.RankingEntry, error)
+	GetRanking(eventSlug string, limit int) ([]model.RankingEntry, error)
 }
 
 type rankingUsecase struct {
@@ -17,6 +17,7 @@ func NewRankingUsecase(r repository.RankingRepository) RankingUsecase {
 	return &rankingUsecase{rankingRepo: r}
 }
 
-func (u *rankingUsecase) GetRanking(limit int) ([]model.RankingEntry, error) {
-	return u.rankingRepo.GetRanking(limit)
+func (u *rankingUsecase) GetRanking(eventSlug string, limit int) ([]model.RankingEntry, error) {
+	redisKey := "ranking:" + eventSlug
+	return u.rankingRepo.GetRanking(redisKey, limit)
 }

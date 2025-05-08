@@ -10,6 +10,7 @@ public static class ScoreManager
     private class ScoreData
     {
         public int score;
+        public string event_slug; 
     }
 
     public static void AddEnemyScore(int enemyScore)
@@ -37,7 +38,17 @@ public static class ScoreManager
         }
 
         string url = "http://localhost:8080/auth/score";
+
+        // 日付が2026/5/8より前かチェック
+        var now = System.DateTime.Now;
+        var cutoff = new System.DateTime(2026, 5, 8);
+
         ScoreData data = new ScoreData { score = score };
+        if (now < cutoff)
+        {
+            data.event_slug = "test_event_yearly";
+        }
+
         string json = JsonUtility.ToJson(data);
 
         UnityWebRequest req = new UnityWebRequest(url, "POST");
