@@ -15,11 +15,15 @@ type UserUsecase interface {
 }
 
 type userUsecase struct {
-	userRepo repository.UserRepository
+	userRepo    repository.UserRepository
+	rankingRepo repository.RankingRepository
 }
 
-func NewUserUsecase(r repository.UserRepository) UserUsecase {
-	return &userUsecase{userRepo: r}
+func NewUserUsecase(u repository.UserRepository, r repository.RankingRepository) UserUsecase {
+	return &userUsecase{
+		userRepo:    u,
+		rankingRepo: r,
+	}
 }
 
 func (u *userUsecase) Signup(username, password string) (*model.User, error) {
@@ -59,9 +63,14 @@ func (u *userUsecase) UpdateHighScore(userID int, newScore int) error {
 	if err != nil {
 		return err
 	}
-	
+
 	if newScore > user.HighScore {
-		return u.userRepo.UpdateHighScore(userID, newScore)
+		if err := u.userRepo.UpdateHighScore(userID, newScore); err != nil {
+			return err
+		}
+		if err := u.rankingRepo.ZAddScore(userID, newScore); err != nil {
+			return err
+		}
 	}
 	return nil
 }

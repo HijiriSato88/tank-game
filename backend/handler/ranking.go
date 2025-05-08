@@ -24,8 +24,8 @@ func (h *RankingHandler) GetRanking(c echo.Context) error {
 			limit = parsed
 		}
 	}
-	if limit <= 0 || limit > 100 {
-		limit = 10
+	if limit <= 0 || limit > 10000 {
+		limit = 1000
 	}
 
 	rankings, err := h.rankingUsecase.GetRanking(limit)

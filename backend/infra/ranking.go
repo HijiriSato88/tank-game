@@ -4,6 +4,8 @@ import (
 	"backend/db"
 	"backend/domain/model"
 	"backend/domain/repository"
+	"fmt"
+	"github.com/redis/go-redis/v9"
 )
 
 type rankingRepository struct{}
@@ -22,4 +24,12 @@ func (r *rankingRepository) GetRanking(limit int) ([]model.RankingEntry, error) 
 		LIMIT ?
 	`, limit)
 	return rankings, err
+}
+
+func (r *rankingRepository) ZAddScore(userID int, score int) error {
+	member := fmt.Sprintf("user:%d", userID)
+	return db.Redis.ZAdd(ctx, "ranking", redis.Z{
+		Score:  float64(score),
+		Member: member,
+	}).Err()
 }

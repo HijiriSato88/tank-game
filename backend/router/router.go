@@ -10,10 +10,6 @@ import (
 )
 
 func SetupRoutes(e *echo.Echo) {
-	// user
-	userRepo := infra.NewUserRepository()
-	userUsecase := usecase.NewUserUsecase(userRepo)
-	userHandler := handler.NewUserHandler(userUsecase)
 
 	// enemy
 	enemyRepo := infra.NewEnemyRepository()
@@ -24,6 +20,11 @@ func SetupRoutes(e *echo.Echo) {
 	rankingRepo := infra.NewRankingRepository()
 	rankingUsecase := usecase.NewRankingUsecase(rankingRepo)
 	rankingHandler := handler.NewRankingHandler(rankingUsecase)
+
+	// user
+	userRepo := infra.NewUserRepository()
+	userUsecase := usecase.NewUserUsecase(userRepo, rankingRepo)
+	userHandler := handler.NewUserHandler(userUsecase)
 
 	// 公開ルート
 	e.POST("/signup", userHandler.Signup)
