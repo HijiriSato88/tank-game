@@ -34,7 +34,7 @@ func (r *rankingRepository) GetRanking(limit int) ([]model.RankingEntry, error) 
 	}
 
 	var result []model.RankingEntry
-	for _, z := range zs {
+	for i, z := range zs {
 		username, ok := z.Member.(string)
 		if !ok {
 			continue
@@ -42,9 +42,10 @@ func (r *rankingRepository) GetRanking(limit int) ([]model.RankingEntry, error) 
 		result = append(result, model.RankingEntry{
 			Username:  username,
 			HighScore: int(z.Score),
+			Rank:     i + 1,
 		})
 	}
-
+	
 	return result, nil
 }
 
