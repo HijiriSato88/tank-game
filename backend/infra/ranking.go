@@ -45,7 +45,7 @@ func (r *rankingRepository) GetRanking(limit int) ([]model.RankingEntry, error) 
 			Rank:     i + 1,
 		})
 	}
-	
+
 	return result, nil
 }
 
